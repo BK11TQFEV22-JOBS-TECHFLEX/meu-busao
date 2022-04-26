@@ -4,21 +4,21 @@ public class Carro {
     private String _placa;        
     private int _chassi;
     private int _velocidadeAtual;
+    private Motorista _motorista;
 
-    public Carro(String placa, int chassi) throws IllegalArgumentException {
+    public Carro(String placa, int chassi, Motorista motorista) throws IllegalArgumentException {
+        this(chassi, motorista);
         validarPlaca(placa);
-        validarChassi(chassi);
-
         _placa = placa;
-        _chassi = chassi;
-        _velocidadeAtual = 0;
     }
 
-    public Carro(int chassi) throws IllegalArgumentException {
+    public Carro(int chassi, Motorista motorista) throws IllegalArgumentException {
         validarChassi(chassi);
 
         _chassi = chassi;
         _velocidadeAtual = 0;
+        _motorista = motorista;
+        _motorista.setVeiculo(this);
     }
 
     public String getPlaca() {
@@ -31,6 +31,10 @@ public class Carro {
 
     public int getVelocidadeAtual() {
         return _velocidadeAtual;
+    }
+
+    public Motorista getMotorista() {
+        return _motorista;
     }
 
     void acelerar() {
