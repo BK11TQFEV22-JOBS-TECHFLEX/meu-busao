@@ -4,13 +4,12 @@ public class Motorista {
     private String _nome;
     private int _matricula;
     private String _cnh;
-    private Carro _carro;
+    private Carro _veiculo;
 
-    public Motorista(String nome, int matricula, String cnh, Carro carro) {
+    public Motorista(String nome, int matricula, String cnh) {
         _nome = nome;
         _matricula = matricula;
         _cnh = cnh;
-        _carro = carro;
     }
 
     public String getNome() {
@@ -25,20 +24,32 @@ public class Motorista {
         return _cnh;
     }
 
-    public Carro getCarro() {
-        return _carro;
+    public Carro getVeiculo() {
+        return _veiculo;
+    }
+
+    public void setVeiculo(Carro carro) {
+        _veiculo = carro;
     }
 
     @Override
     public String toString() {
-        return "Motorista [nome=" + _nome + ", matricula=" + _matricula + ", cnh=" + _cnh + ", carro=" + _carro + "]";
+        return "Motorista [nome=" + _nome + ", matricula=" + _matricula + ", cnh=" + _cnh + ", carro=" + _veiculo + "]";
     }
 
     public void acelerar() {
-        _carro.acelerar();
+        if (_veiculo == null) {
+            throw new NullPointerException("Motorista não possui carro!");
+        }
+                
+        _veiculo.acelerar();
     }
 
     public void acelerar(int limite) {
-        _carro.acelerar(limite);
+        if (_veiculo == null) {
+            throw new NullPointerException("Motorista não possui carro!");
+        }
+
+        _veiculo.acelerar(limite);
     }
 }
