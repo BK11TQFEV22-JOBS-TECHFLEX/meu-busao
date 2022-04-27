@@ -1,4 +1,4 @@
-package controleFrota;
+package controleFrota.Impl;
 
 public class Carro {
     private String _placa;        

@@ -1,19 +1,16 @@
-package controleFrota;
+package controleFrota.Impl;
 
-public class Motorista {
-    private String _nome;
+import controleFrota.Pessoa;
+
+public class Motorista extends Pessoa {
     private int _matricula;
     private String _cnh;
     private Carro _veiculo;
 
-    public Motorista(String nome, int matricula, String cnh) {
-        _nome = nome;
+    public Motorista(String nome, int matricula, String cnh, String cpf) {
+        super(nome, cpf);
         _matricula = matricula;
         _cnh = cnh;
-    }
-
-    public String getNome() {
-        return _nome;
     }
 
     public int getMatricula() {
@@ -34,7 +31,12 @@ public class Motorista {
 
     @Override
     public String toString() {
-        return "Motorista [nome=" + _nome + ", matricula=" + _matricula + ", cnh=" + _cnh + ", carro=" + _veiculo + "]";
+        return super.toString() + ":[matricula=" + _matricula + ", cnh=" + _cnh + ", carro=" + _veiculo + "]";
+    }
+
+    @Override
+    public String getTipo() {
+        return "Motorista";
     }
 
     public void acelerar() {
