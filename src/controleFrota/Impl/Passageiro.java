@@ -2,7 +2,7 @@ package controleFrota.Impl;
 
 import controleFrota.Pessoa;
 
-public class Passageiro extends Pessoa {
+public final class Passageiro extends Pessoa {
 
     private String _codigoCliente;
 
