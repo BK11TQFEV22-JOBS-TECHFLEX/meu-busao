@@ -1,7 +1,8 @@
 package controleFrota.Impl;
 
 public class Carro {
-    private String _placa;        
+    private String _letrasPlaca;    
+    private int _numerosPlaca;    
     private int _chassi;
     private int _velocidadeAtual;
     private Motorista _motorista;
@@ -9,7 +10,8 @@ public class Carro {
     public Carro(String placa, int chassi, Motorista motorista) throws IllegalArgumentException {
         this(chassi, motorista);
         validarPlaca(placa);
-        _placa = placa;
+        _letrasPlaca = placa.substring(0, 3);
+        _numerosPlaca = Integer.parseInt(placa.substring(3));
     }
 
     public Carro(int chassi, Motorista motorista) throws IllegalArgumentException {
@@ -22,7 +24,7 @@ public class Carro {
     }
 
     public String getPlaca() {
-        return _placa;
+        return _letrasPlaca + _numerosPlaca;
     }
 
     public int getChassi() {
@@ -53,7 +55,7 @@ public class Carro {
 
     @Override
     public String toString() {
-        return "Carro [placa=" + _placa + ", chassi=" + _chassi + ", velocidadeAtual=" + _velocidadeAtual + "]";
+        return "Carro [placa=" + getPlaca() + ", chassi=" + _chassi + ", velocidadeAtual=" + _velocidadeAtual + "]";
     }
 
     private void validarPlaca(String placa) {
