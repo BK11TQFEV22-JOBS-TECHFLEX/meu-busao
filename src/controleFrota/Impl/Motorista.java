@@ -39,7 +39,7 @@ public class Motorista extends Pessoa {
         return "Motorista";
     }
 
-    public void acelerar() {
+    public void acelerar() throws NullPointerException {
         if (_veiculo == null) {
             throw new NullPointerException("Motorista não possui carro!");
         }
@@ -47,7 +47,7 @@ public class Motorista extends Pessoa {
         _veiculo.acelerar();
     }
 
-    public void acelerar(int limite) {
+    public void acelerar(int limite) throws NullPointerException {
         if (_veiculo == null) {
             throw new NullPointerException("Motorista não possui carro!");
         }
