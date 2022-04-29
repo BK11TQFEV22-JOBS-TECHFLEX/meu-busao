@@ -3,48 +3,115 @@ import java.util.Scanner;
 
 import controleFrota.Impl.Carro;
 import controleFrota.Impl.Motorista;
-import controleFrota.Impl.Passageiro;
+import controleFrota.Impl.Excecoes.MotoristaNaoEncontradoException;
 
 public class App {
     private final static int TAMANHO_INICIAL_LISTAS = 10;
     private static Scanner scanner = new Scanner(System.in);
     private static Motorista[] _motoristas = new Motorista[TAMANHO_INICIAL_LISTAS];
     private static int _numeroMotoristas = 0;
+    private static Carro[] _carros = new Carro[TAMANHO_INICIAL_LISTAS];
+    private static int _numeroCarros = 0;
 
     public static void main(String[] args) throws Exception {
-        int opcao = 0;
+        boolean continuarExecutando = true;
         do {
-            imprimirMenu();
-            opcao = lerOpcao();
-            executarOpcao(opcao);
-        } while (opcao != 9);
-
-
-        Passageiro passageiro = new Passageiro("João", "123.456.789-00", "12345");
-        System.out.println(passageiro);
-
-        Motorista seuJuarez = new Motorista("Juarez", 1234567, "A1B2C3D4", "123.456.789-00");
-        Carro fusca = new Carro("BKF1234", 7755443, seuJuarez);
-
-        System.out.println("PASSAGEIRO: Motorista, acelera o carro até 100Km/h!");
-        System.out.println("MOTORISTA: Ok! Vamos lá!");
-        fusca.getMotorista().acelerar(100);
-
-        System.out.printf("Velocidade do carro: %d Km/h\n", fusca.getVelocidadeAtual());
-        System.out.printf("Habilitação do motorista %s: %s", seuJuarez.getNome(), seuJuarez.getCnh());
+            try {
+                imprimirMenu();
+                int opcao = lerOpcao();
+                continuarExecutando = executarOpcao(opcao);
+            } catch (Exception e) {
+                System.out.println("Ocorreu um erro durante a operação: " + e.getMessage());
+                continuarExecutando = true;
+            }
+        } while (continuarExecutando);
     }
 
-    private static void executarOpcao(int opcao) {
+    private static boolean executarOpcao(int opcao) throws Exception {
         switch (opcao) {
             case 1: {
                 cadastrarMotorista();
                 break;
+            }
+            case 2: {
+                cadastrarCarro();
+                break;
+            }
+            case 7: {
+                listarMotoristas();
+                break;
+            }
+            case 8: {
+                listarCarros();
+                break;
+            }
+            case 9: {
+                System.out.println("Saindo do sistema...");
+                return false;
             }
             default: {
                 System.out.println("Ainda não implementado!");
                 break;
             }
         }
+
+        return true;
+    }
+
+    private static void listarMotoristas() {
+        System.out.println("Lista de motoristas cadastrados:");
+        for (int i = 0; i < _numeroMotoristas; i++) {
+            System.out.println(_motoristas[i]);
+        }
+    }
+
+    private static void listarCarros() {
+        System.out.println("Lista de carros cadastrados:");
+        for (int i = 0; i < _numeroCarros; i++) {
+            System.out.println(_carros[i]);
+        }
+    }
+
+    private static void cadastrarCarro() throws MotoristaNaoEncontradoException {
+        System.out.println("Cadastro de carros");
+        System.out.println("Digite a placa do carro:");
+        String placa = scanner.nextLine();
+        System.out.println("Digite o chassi do carro:");
+        int chassi = Integer.parseInt(scanner.nextLine());
+        System.out.println("Digite o CPF do motorista:");
+        String cpf = scanner.nextLine();
+        Motorista motorista = buscarMotorista(cpf);
+
+        Carro carro = new Carro(placa, chassi, motorista);
+        adicionarCarroNaLista(carro);
+    }
+
+    private static void adicionarCarroNaLista(Carro carro) {
+        if (_numeroCarros == _carros.length) {
+            Carro[] novaLista = new Carro[_carros.length * 2];
+            
+            // Copio os elementos da lista antiga para a nova lista.
+            for (int i = 0; i < _carros.length; i++) {
+                novaLista[i] = _carros[i];
+            }
+
+            // Substituo a lista antiga pela nova.
+            _carros = novaLista;
+        }
+
+        // Adiciono o carro a lista.
+        _carros[_numeroCarros] = carro;
+        _numeroCarros++;        
+    }
+
+    private static Motorista buscarMotorista(String cpf) throws MotoristaNaoEncontradoException {
+        for (Motorista motorista: _motoristas) {
+            if (motorista != null && motorista.getCpf().equals(cpf)) {
+                return motorista;
+            }
+        }
+
+        throw new MotoristaNaoEncontradoException(cpf);
     }
 
     private static void adicionarMotoristaNaLista(Motorista motorista) {
@@ -87,11 +154,14 @@ public class App {
         System.out.println("3 - Cadastrar passageiro");
         System.out.println("4 - Acelerar carro");
         System.out.println("5 - Acelerar carro até um limite");
+        System.out.println("6 - Frear carro");
+        System.out.println("7 - Listar motoristas");
+        System.out.println("8 - Listar carros");
         System.out.println("9 - Sair");
     }
 
     private static boolean validarOpcaoMenu(int opcao) {
-        return (opcao >= 1 && opcao <= 5) || opcao == 9;
+        return (opcao >= 1 && opcao <= 9);
     }
 
     private static int lerOpcao() {
