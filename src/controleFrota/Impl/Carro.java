@@ -1,6 +1,9 @@
 package controleFrota.Impl;
 
-public class Carro {
+import controleFrota.Acelerador;
+import controleFrota.Autenticavel;
+
+public class Carro implements Acelerador, Autenticavel {
     private String _letrasPlaca;    
     private int _numerosPlaca;    
     private int _chassi;
@@ -39,11 +42,13 @@ public class Carro {
         return _motorista;
     }
 
-    void acelerar() {
+    @Override
+    public void acelerar() {
         _velocidadeAtual++;
     }
 
-    void acelerar(int limite) {  
+    @Override
+    public void acelerar(int limite) {  
         for (int i = _velocidadeAtual; i < limite; i++) {
             acelerar();
         }
@@ -68,5 +73,10 @@ public class Carro {
         if (chassi < 1000000 || chassi > 9999999) {
             throw new IllegalArgumentException("Chassi inválido, o valor aceito é entre 1000000 e 9999999!");
         }
+    }
+
+    @Override
+    public String obterCredenciais() {
+        return getPlaca();
     }
 }

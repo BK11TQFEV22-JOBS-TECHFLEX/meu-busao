@@ -1,8 +1,10 @@
 package controleFrota.Impl;
 
+import controleFrota.Acelerador;
+import controleFrota.Autenticavel;
 import controleFrota.Pessoa;
 
-public class Motorista extends Pessoa {
+public class Motorista extends Pessoa implements Acelerador, Autenticavel {
     private int _matricula;
     private String _cnh;
     private Carro _veiculo;
@@ -39,6 +41,7 @@ public class Motorista extends Pessoa {
         return "Motorista";
     }
 
+    @Override
     public void acelerar() throws NullPointerException {
         if (_veiculo == null) {
             throw new NullPointerException("Motorista não possui carro!");
@@ -47,11 +50,17 @@ public class Motorista extends Pessoa {
         _veiculo.acelerar();
     }
 
+    @Override
     public void acelerar(int limite) throws NullPointerException {
         if (_veiculo == null) {
             throw new NullPointerException("Motorista não possui carro!");
         }
 
         _veiculo.acelerar(limite);
+    }
+
+    @Override
+    public String obterCredenciais() {
+        return String.valueOf(_matricula);
     }
 }

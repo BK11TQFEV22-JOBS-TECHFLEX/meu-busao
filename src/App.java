@@ -1,6 +1,9 @@
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import controleFrota.Acelerador;
+import controleFrota.Impl.Autenticador;
 import controleFrota.Impl.Carro;
 import controleFrota.Impl.Motorista;
 import controleFrota.Impl.Excecoes.MotoristaNaoEncontradoException;
@@ -14,6 +17,18 @@ public class App {
     private static int _numeroCarros = 0;
 
     public static void main(String[] args) throws Exception {
+        // TODO: Criar menu para autenticar um motorista ou um carro.
+
+        Motorista mot = new Motorista("José", 123, "12345", "12345678901");
+        Carro car = new Carro("ABC1234", 1234578, mot);
+
+        Autenticador autenticador = new Autenticador();
+        boolean motoristaAutenticado = autenticador.autenticar(mot);
+        System.out.println(motoristaAutenticado);
+
+        boolean carroAutenticado = autenticador.autenticar(car);
+        System.out.println(carroAutenticado);
+
         boolean continuarExecutando = true;
         do {
             try {
@@ -35,6 +50,27 @@ public class App {
             }
             case 2: {
                 cadastrarCarro();
+                break;
+            }
+            case 4: {
+                ArrayList<Acelerador> aceleradores = new ArrayList<Acelerador>();
+                for (int i = 0; i < _numeroMotoristas; i++) {
+                    if (_motoristas[i] != null) {
+                        aceleradores.add(_motoristas[i]);
+                    }
+                }
+
+                for (int i = 0; i < _numeroCarros; i++) {
+                    if (_carros[i] != null) {
+                        aceleradores.add(_carros[i]);
+                    }
+                }
+
+                for (Acelerador acelerador : aceleradores) {
+                    acelerador.acelerar();
+                    System.out.println("Acelerando como: " + acelerador);
+                }
+
                 break;
             }
             case 7: {
@@ -152,8 +188,8 @@ public class App {
         System.out.println("1 - Cadastrar motorista");
         System.out.println("2 - Cadastrar carro");
         System.out.println("3 - Cadastrar passageiro");
-        System.out.println("4 - Acelerar carro");
-        System.out.println("5 - Acelerar carro até um limite");
+        System.out.println("4 - Acelerar");
+        System.out.println("5 - Acelerar até um limite");
         System.out.println("6 - Frear carro");
         System.out.println("7 - Listar motoristas");
         System.out.println("8 - Listar carros");
